@@ -5,7 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 import ShopPage from './pages-component/shop/shop.component';
 import Header from './component/header/header.component'
 import SignInAndSignUpPage from './pages-component/authentication/signin-signup.component';
-import { auth } from './firebase/firebase.util';
+import { auth, createUserProfileDocument } from './firebase/firebase.util';
 
 class App extends React.Component {
 
@@ -20,10 +20,26 @@ class App extends React.Component {
   unsubscriveFromAuth = null;
   componentDidMount() {
     // this is a subscription, firebase keeps us updated of the status
-    this.unsubscriveFromAuth = auth.onAuthStateChanged(user => {
-      this.setState({ currentUser: user });
-      console.log(user);
+    this.unsubscriveFromAuth = auth.onAuthStateChanged(async user => {
+      if (user) {
+        //userref will only have snapshot of data, not the actual data, for that we will need to use snapshot and data to get that
+        const userRef = await createUserProfileDocument(user);
+        userRef.onSnapshot(snapshot => {
+          console.log(snapshot.data);
+          this.setState({
+            currentUser: {
+              id: snapshot.id,
+              ...snapshot.data()
+            }
+          }, () => console.log(this.state.currentUser)
+          );
+        });
+      }
+      else {
+        this.setState({ currentUser: null });
+      }
     })
+
   }
 
   componentWillUnmount() {
