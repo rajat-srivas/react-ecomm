@@ -23,5 +23,7 @@ export default Header;
 /*
 
 By importing Logo as react component we can use it as simple html tag as in component
+React component that renders an SVG, rather than its filename.
+https://create-react-app.dev/docs/adding-images-fonts-and-files/
 
 */
