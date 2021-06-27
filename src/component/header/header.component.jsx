@@ -25,6 +25,9 @@ const Header = ({ currentUser }) => (
 
 );
 
+//this method allows us to access the state
+//state is the root reducer
+//this when wrapped around the export, allows us to access the props without getting passed. We access the prop fromt the state i.e root reducer state
 const mapStateToProps = state => ({
     currentUser: state.user.currentUser
 })
