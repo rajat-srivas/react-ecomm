@@ -6,6 +6,7 @@ import { auth } from '../../firebase/firebase.util';
 import { connect } from 'react-redux'
 import CartIcon from '../cart-icon/cart-icon.component'
 import CartDropdown from '../cart/cart.component';
+import { selectCurrentUser } from '../../redux/user/user.selector';
 
 const Header = ({ currentUser, hidden }) => (
 
@@ -36,9 +37,9 @@ const Header = ({ currentUser, hidden }) => (
 //this method allows us to access the state
 //state is the root reducer
 //this when wrapped around the export, allows us to access the props without getting passed. We access the prop fromt the state i.e root reducer state
-const mapStateToProps = ({ user, cart }) => ({
-    currentUser: user.currentUser,
-    hidden: cart.hidden
+const mapStateToProps = (state) => ({
+    currentUser: selectCurrentUser(state),
+    hidden: state.cart.hidden
 })
 
 export default connect(mapStateToProps)(Header);
