@@ -1,0 +1,30 @@
+.checkout-summary {
+  padding: 20px;
+
+  .summary {
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    grid-gap: 10px;
+
+    &__address-selector {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .order {
+    &__summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .user__addresss__stored {
+    max-height: 420px;
+    overflow-y: auto;
+    width: 100%;
+    margin-bottom: 40px;
+  }
+}

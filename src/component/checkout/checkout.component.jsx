@@ -4,8 +4,11 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectCartItems, selectCartTotal } from '../../redux/cart/cart.selector';
 import CheckoutItem from '../checkout-item/checkout-item.component';
+import CustomButton from '../custom-button/custom-button.component'
+import { withRouter } from 'react-router-dom';
 
-const Checkout = ({ cartItems, total }) => (
+
+const Checkout = ({ cartItems, total, history }) => (
     <div className="checkout-page">
         <div className="checkout-header">
 
@@ -30,8 +33,20 @@ const Checkout = ({ cartItems, total }) => (
         }
         <div className="total">
             <span>Total: ${total}</span></div>
+        <div className="flow">
+            <CustomButton inverted onClick={() => {
+                history.push('/shop')
+            }} >Continue Shopping</CustomButton>
+
+            <CustomButton onClick={() => {
+                history.push('/checkout-summary')
+            }} >Proceed To Checkout</CustomButton>
+
+        </div>
+
     </div>
 );
+
 
 //if we use createStructuredSelector of reselect then we dont need to pass the state,
 //it is automatically passed on
@@ -40,4 +55,4 @@ const mapStateToProps = createStructuredSelector({
     total: selectCartTotal
 })
 
-export default connect(mapStateToProps)(Checkout);
+export default withRouter(connect(mapStateToProps)(Checkout));

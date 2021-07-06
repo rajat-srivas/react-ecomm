@@ -4,7 +4,8 @@ import { UserActionTypes } from './user.actiontypes'
 
 //initial state is the default value, used when the component is mounted for the first time, we assign this as default value of state in the reducer below
 const INITIAL_STATE = {
-    currentUser: null
+    currentUser: null,
+    address: []
 }
 
 //setting the default state, similar setting up this.state in constructor 
@@ -17,6 +18,11 @@ const UserReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 currentUser: action.payload
+            }
+        case UserActionTypes.ADD_NEW_ADDRESS:
+            return {
+                ...state,
+                address: [...state.address, ...action.payload]
             }
         default:
             return state;

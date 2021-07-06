@@ -5,33 +5,34 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import ShopPage from './pages-component/shop/shop.component';
 import Header from './component/header/header.component'
 import SignInAndSignUpPage from './pages-component/authentication/signin-signup.component';
-import { auth, createUserProfileDocument } from './firebase/firebase.util';
+import { auth, createUserProfileDocument, getAddressForUser } from './firebase/firebase.util';
 import { connect } from 'react-redux';
-import { setCurrentUserAction } from './redux/user/user.action';
+import { setCurrentUserAction, setUserAddressAction } from './redux/user/user.action';
 import Checkout from './component/checkout/checkout.component';
+import AddNewAddress from './component/address/address.component';
+import CheckoutSummary from './component/checkout-summary/checkout-summary.component';
 class App extends React.Component {
-
-  constructor() {
-    super();
-    // this.state = {
-    //   currentUser: null
-    // }
-  }
   unsubscriveFromAuth = null;
 
   componentDidMount() {
     // this is a subscription, firebase keeps us updated of the status
-    const { setCurrentUser } = this.props;
-    console.log(this.props);
+    const { setCurrentUser, addUserAddress } = this.props;
     this.unsubscriveFromAuth = auth.onAuthStateChanged(async user => {
       if (user) {
         //userref will only have snapshot of data, not the actual data, for that we will need to use snapshot and data to get that
         const userRef = await createUserProfileDocument(user);
-        userRef.onSnapshot(snapshot => {
+        userRef.onSnapshot(async snapshot => {
           setCurrentUser({
             id: snapshot.id,
             ...snapshot.data()
           })
+          const addressSnapshot = await getAddressForUser(snapshot.id);
+          if (!addressSnapshot.empty) {
+            addressSnapshot.forEach(doc => {
+              const address = doc.data().address;
+              addUserAddress(address);
+            });
+          }
         });
       }
       else {
@@ -53,6 +54,8 @@ class App extends React.Component {
           <Route exact path='/' component={HomePage} />
           <Route exact path='/shop' component={ShopPage} />
           <Route exact path='/checkout' component={Checkout} />
+          <Route exact path='/addAddress' component={AddNewAddress} />
+          <Route exact path='/checkout-summary' component={CheckoutSummary} />
 
           <Route exact path='/signin' render={() => this.props.currentUser ? (<Redirect to='/' />) : (<SignInAndSignUpPage />)} />
         </Switch>
@@ -71,7 +74,8 @@ const mapStateToProps = state => ({
 
 
 const mapDispathToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUserAction(user))
+  setCurrentUser: user => dispatch(setCurrentUserAction(user)),
+  addUserAddress: data => dispatch(setUserAddressAction(data))
 });
 
 export default connect(mapStateToProps, mapDispathToProps)(App);

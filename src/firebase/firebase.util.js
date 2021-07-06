@@ -39,6 +39,51 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     return userRef;
 }
 
+export const createUserAddress = async (userid, userAddress) => {
+    const addressRef = firestore.collection('address');
+    try {
+        const addressSnapshot = await addressRef.where('linkedUser', '==', userid).get();
+
+        if (addressSnapshot.empty) {
+            await addressRef.add({
+                linkedUser: userid,
+                address: [{
+                    ...userAddress
+                }]
+            })
+        }
+        else {
+            let docToUpdate;
+            addressSnapshot.forEach(doc => {
+                docToUpdate = doc.id;
+            });
+            const docRef = firestore.doc(`address/${docToUpdate}`);
+            await docRef.update({
+                address: firebase.firestore.FieldValue.arrayUnion(userAddress)
+            });
+        }
+
+
+    }
+    catch (error) {
+        console.log('error creating address', error.message)
+    }
+}
+
+export const getAddressForUser = async (userId) => {
+
+    const addressRef = firestore.collection('address');
+    try {
+        const addressSnapshot = await addressRef.where('linkedUser', '==', userId).get();
+        return addressSnapshot;
+    }
+    catch (error) {
+        console.error(error);
+    }
+
+}
+
+
 firebase.initializeApp(config);
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();

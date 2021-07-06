@@ -1,4 +1,3 @@
-import { thisExpression } from '@babel/types';
 import React from 'react';
 import SHOP_DATA from './shop.data';
 import PreviewCollection from '../../component/preview-collection/preview-collection.component';
