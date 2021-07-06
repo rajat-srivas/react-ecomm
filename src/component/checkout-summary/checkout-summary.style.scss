@@ -6,7 +6,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto;
-    grid-gap: 10px;
+    grid-gap: 40px;
 
     &__address-selector {
       display: flex;
@@ -17,12 +17,37 @@
   .order {
     &__summary {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      // grid-template-columns: 1fr 1fr 1fr;
+      // grid-gap: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 60px;
+      padding: 10px;
+      background-color: grey;
+      color: white;
+
+      font-size: 20px;
+
+      .count {
+        font-weight: bolder;
+      }
+      .date {
+        color: white;
+
+        display: inline-block;
+        text-align: center;
+        font-weight: bold;
+      }
+      .price {
+        font-weight: bold;
+      }
     }
   }
 
   .user__addresss__stored {
-    max-height: 420px;
+    height: 320px;
+    max-height: 320px;
     overflow-y: auto;
     width: 100%;
     margin-bottom: 40px;

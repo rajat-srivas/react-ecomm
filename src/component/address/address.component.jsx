@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { selectCurrentUser } from '../../redux/user/user.selector';
 import { createUserAddress } from '../../firebase/firebase.util';
 import { setUserAddressAction } from '../../redux/user/user.action';
+import uuid from 'react-uuid'
 
 
 class AddNewAddress extends React.Component {
@@ -25,7 +26,8 @@ class AddNewAddress extends React.Component {
                             pincode: '',
                             phone: '',
                             city: '',
-                            state: ''
+                            state: '',
+                            id: uuid()
                         }
                     }
                     validationSchema={ValidationSchema}

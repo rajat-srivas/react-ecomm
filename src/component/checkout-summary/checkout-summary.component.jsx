@@ -15,12 +15,17 @@ class CheckoutSummary extends React.Component {
     constructor() {
         super();
         this.state = {
-            modelOpen: false
+            modelOpen: false,
+            selectedDeliveryAddress: 0
         }
     }
 
     toggleModel = () => {
         this.setState({ modelOpen: !this.state.modelOpen })
+    }
+
+    handleCheckboxChange = (id) => (e) => {
+        this.setState({ selectedDeliveryAddress: id })
     }
 
     render() {
@@ -41,13 +46,15 @@ class CheckoutSummary extends React.Component {
             <div className="checkout-summary container">
                 <div className="summary">
                     <div className="summary__address-selector">
-                        <h2>SELECT A DELIVERY ADDRESS</h2>
+                        <h2>SELECT A DELIVERY ADDRESS 🚀 </h2>
                         <div className="user__address">
                             <div className="user__addresss__stored">
                                 {
                                     billingAddresses.map(
-                                        (item, i) => (
-                                            <UserAddress key={i} {...item} />
+                                        (item) => (
+                                            <UserAddress checked={
+                                                item.id === this.state.selectedDeliveryAddress
+                                            } handleChange={this.handleCheckboxChange} key={item.id} {...item} />
                                         )
                                     )
                                 }
@@ -64,19 +71,20 @@ class CheckoutSummary extends React.Component {
                         </div>
                     </div>
                     <div className="order">
-                        <h2>ORDER SUMMARY</h2>
+                        <h2>ORDER SUMMARY </h2>
 
                         <div className="order__summary">
-                            <span className='count' >Product Count: X</span>
-                            <span className='date'>Expected Delivery Date: 25/July/2020</span>
+                            <span className='count' >Items: X</span>
+                            <span className='date'>Expected Delivery: 25/July/2020</span>
                             <span className='price'>Total Price: $566</span>
                         </div>
                         <div className="order__payment">
                             <div className="test-details">
-                                <span></span>
+                                <span>Pay using the test card
+                                    0000-0000-0000-0000</span>
                             </div>
                             <CustomButton onClick={() => getAddressForUser('xLGJQH313zSJiKvEplhbPVu5s0b2')}
-                                type='button'>PAY NOW</CustomButton>                        </div>
+                                type='button'>PAY NOW 💳 </CustomButton>                        </div>
                     </div>
                 </div>
             </div >
