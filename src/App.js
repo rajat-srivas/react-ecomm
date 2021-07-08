@@ -11,6 +11,7 @@ import { setCurrentUserAction, setUserAddressAction } from './redux/user/user.ac
 import Checkout from './component/checkout/checkout.component';
 import AddNewAddress from './component/address/address.component';
 import CheckoutSummary from './component/checkout-summary/checkout-summary.component';
+import Profile from './component/profile/profile.component';
 class App extends React.Component {
   unsubscriveFromAuth = null;
 
@@ -53,9 +54,12 @@ class App extends React.Component {
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route exact path='/shop' component={ShopPage} />
-          <Route exact path='/checkout' component={Checkout} />
+
+          <Route exact path='/checkout' render={() => this.props.currentUser ? (<Checkout />) : (<SignInAndSignUpPage />)} />
+
           <Route exact path='/addAddress' component={AddNewAddress} />
-          <Route exact path='/checkout-summary' component={CheckoutSummary} />
+          <Route exact path='/checkout-summary' render={() => this.props.currentUser ? (<CheckoutSummary />) : (<SignInAndSignUpPage />)} />
+          <Route exact path='/profile' render={() => this.props.currentUser ? (<Profile />) : (<SignInAndSignUpPage />)} />
 
           <Route exact path='/signin' render={() => this.props.currentUser ? (<Redirect to='/' />) : (<SignInAndSignUpPage />)} />
         </Switch>
@@ -64,7 +68,7 @@ class App extends React.Component {
   }
 };
 
-// const mapStateToProps = ({ user }) => ({
+// const mapStateToProps = ({user}) => ({
 //   currentUser: user.currentUser
 // })
 

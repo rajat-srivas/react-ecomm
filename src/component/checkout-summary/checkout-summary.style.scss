@@ -11,10 +11,17 @@
     &__address-selector {
       display: flex;
       flex-direction: column;
+
+      h2 {
+        margin-bottom: 40px;
+      }
     }
   }
 
   .order {
+    h2 {
+      margin-bottom: 40px;
+    }
     &__summary {
       display: grid;
       // grid-template-columns: 1fr 1fr 1fr;
@@ -32,22 +39,28 @@
       .count {
         font-weight: bolder;
       }
-      .date {
-        color: white;
 
-        display: inline-block;
-        text-align: center;
-        font-weight: bold;
-      }
       .price {
         font-weight: bold;
+      }
+    }
+
+    &__payment {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .test-details span {
+        color: white;
+        font-size: 18px;
+        padding: 10px;
+        background-color: grey;
       }
     }
   }
 
   .user__addresss__stored {
-    height: 320px;
-    max-height: 320px;
+    height: 380px;
+    max-height: 380px;
     overflow-y: auto;
     width: 100%;
     margin-bottom: 40px;

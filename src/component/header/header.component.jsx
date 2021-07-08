@@ -8,31 +8,47 @@ import CartIcon from '../cart-icon/cart-icon.component'
 import CartDropdown from '../cart/cart.component';
 import { selectCurrentUser } from '../../redux/user/user.selector';
 
-const Header = ({ currentUser, hidden }) => (
+class Header extends React.Component {
 
-    <div className='header'>
-        <Link to='/' className='logo-container'>
-            <Logo className='logo' />
-        </Link>
-        <div className="options">
-            <Link to='/shop' className='option' >SHOP</Link>
-            <Link to='/contact' className='option' >CONTACT</Link>
-            {
-                currentUser ?
-                    <div className='option' onClick={() => auth.signOut()} >SIGN OUT</div>
-                    :
-                    <Link className='option' to='/signin' >SIGN IN</Link>
-            }
+    constructor() {
+        super()
 
-            <CartIcon />
-        </div>
-        {
-            hidden ? null : <CartDropdown />
-        }
+    }
 
-    </div>
+    handleMenuChange = () => {
 
-);
+    }
+
+    render() {
+        const { currentUser, hidden } = this.props;
+        return (
+            <div className='header'>
+                <Link to='/' className='logo-container'>
+                    <Logo className='logo' />
+                </Link>
+                <div className="options">
+                    <Link to='/shop' className='option' >SHOP</Link>
+                    <Link to='/contact' className='option' >CONTACT</Link>
+                    {
+                        currentUser ?
+                            <div className='option' onClick={() => auth.signOut()} >SIGN OUT</div>
+                            :
+                            <Link className='option' to='/signin' >SIGN IN</Link>
+                    }
+                    {
+                        currentUser ?
+                            <Link className='option' to='/profile' >MY PROFILE</Link> : ''
+                    }
+
+                    <CartIcon />
+                </div>
+                {
+                    hidden ? null : <CartDropdown />
+                }
+            </div>
+        )
+    }
+}
 
 //this method allows us to access the state
 //state is the root reducer

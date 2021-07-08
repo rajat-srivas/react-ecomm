@@ -7,6 +7,7 @@ import AddNewAddress from '../address/address.component'
 import { getAddressForUser } from '../../firebase/firebase.util';
 import UserAddress from '../user-address/user-address.component';
 import { connect } from 'react-redux';
+import { SelectCartItemsCount, selectCartTotal } from '../../redux/cart/cart.selector';
 
 
 Modal.setAppElement('#root');
@@ -29,7 +30,7 @@ class CheckoutSummary extends React.Component {
     }
 
     render() {
-        const { billingAddresses } = this.props;
+        const { billingAddresses, totalItems, totalPrice } = this.props;
         const customModalStyle = {
             content: {
                 top: '50%',
@@ -74,9 +75,8 @@ class CheckoutSummary extends React.Component {
                         <h2>ORDER SUMMARY </h2>
 
                         <div className="order__summary">
-                            <span className='count' >Items: X</span>
-                            <span className='date'>Expected Delivery: 25/July/2020</span>
-                            <span className='price'>Total Price: $566</span>
+                            <span className='count' >Items: {totalItems}</span>
+                            <span className='price'>Total Price: ${totalPrice}</span>
                         </div>
                         <div className="order__payment">
                             <div className="test-details">
@@ -84,7 +84,7 @@ class CheckoutSummary extends React.Component {
                                     0000-0000-0000-0000</span>
                             </div>
                             <CustomButton onClick={() => getAddressForUser('xLGJQH313zSJiKvEplhbPVu5s0b2')}
-                                type='button'>PAY NOW 💳 </CustomButton>                        </div>
+                                type='button'>PAY NOW  💳 </CustomButton>                        </div>
                     </div>
                 </div>
             </div >
@@ -94,7 +94,10 @@ class CheckoutSummary extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    billingAddresses: state.user.address
+    billingAddresses: state.user.address,
+    totalItems: SelectCartItemsCount(state),
+    totalPrice: selectCartTotal(state)
 })
+
 
 export default withRouter(connect(mapStateToProps)(CheckoutSummary));
